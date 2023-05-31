@@ -7,8 +7,6 @@ import { UserService } from '../../services/user.service';
 export class UsersController {
   constructor(private readonly userService: UserService) {}
 
-  dummyUser = {};
-
   @Get('getUser')
   getUserDetailsbyId(@Req() request: Request) {
     return 'IMPLEMENTATAION REQUIRED: Get  *U S E R*  by UserId';
