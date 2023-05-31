@@ -6,7 +6,6 @@ import { NotesAppAuthGuard } from 'libs/guards/auth.guard';
 })
 @UseGuards(NotesAppAuthGuard)
 export class PostsController {
-
   @Get()
   getAllPostsByGroup() {
     return 'IMPLEMENTATAION REQUIRED: Get all  *P O S T S*  by GroupId';
