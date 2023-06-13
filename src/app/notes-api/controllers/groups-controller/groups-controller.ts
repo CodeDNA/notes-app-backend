@@ -12,6 +12,7 @@ export class GroupsController {
 
   @Get(':userId')
   async getMyGroups(@Param('userId') userId: string) {
+    console.log('Testing squash and merge');
     return this.groupsService.getAllGroupsByUserId(userId);
   }
 
