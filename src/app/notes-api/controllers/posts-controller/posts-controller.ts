@@ -1,13 +1,18 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
-import { NotesAppAuthGuard } from 'libs/guards/auth.guard';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { NotesAppAuthGuard } from '@authentication-guard';
+import { PostDto } from '../../dto/post.dto';
+import { GroupsService } from '../../services/groups.service';
+import { UserService } from '../../services/user.service';
 
 @Controller({
   path: 'posts',
 })
 @UseGuards(NotesAppAuthGuard)
 export class PostsController {
+  constructor(private readonly groupsService: GroupsService, private readonly userService: UserService) {}
+
   @Get()
-  getAllPostsByGroup() {
+  getAllPostsByGroupId() {
     return 'IMPLEMENTATAION REQUIRED: Get all  *P O S T S*  by GroupId';
   }
 }

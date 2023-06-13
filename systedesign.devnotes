@@ -1,0 +1,29 @@
+
+                                        SYSTEM DESIGN
+                                      NOTES/LISTTBD APP
+
+CLASSES
+1. Users – user details including userName and emailId.
+2. Groups – collection of connected users sharing posts or a group of posts with same groupId with different userIds associated with them.
+3. Post: Posts of the users (task/note). This is analogous to a comment. Tied to a group and has a userId associated with it.
+
+
+USE CASES
+    1. A user can create a group.
+    2. A user can join a group.
+    3. A user can leave a group.
+    4. A user can join a group if the user has an invitation to join the group from either a existing user of the group or admin(s) only. Admin is defined as the creator of the group or the users that the creator chooses to be admin.
+    5. A user can add a string/post on the group visible to everyone or limited members. The post is tied to a group (unique groupId) and is associated with a user to identify the creator of the post.
+    6. The post is visible to all but can be edited by only the creator of the post.
+    7. Search post:
+        1. Search in current group or search in all groups
+        2. Search users
+        3. Search groups
+        4. Search by post’s text (advance) | Free trial for 6 months
+
+TO DO:
+       1. CLASS METHODS/CONTROLLERS:
+          a) User – addUser, deleteUser, getUser, getUser groups
+          b) Groups: createNewGroup(creatorId: UserId)
+
+
