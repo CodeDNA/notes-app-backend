@@ -19,6 +19,7 @@ export class GroupsController {
   @Post('create')
   async createNewGroup(@Body() group: GroupDto) {
     if (!group.creatorId) {
+      console.log('Testing squash and merge');
       throw new BadRequestException('Group can not be created without a user id!');
     }
 
