@@ -1,6 +1,5 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { NotesAppAuthGuard } from '@authentication-guard';
-import { PostDto } from '../../dto/post.dto';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
 

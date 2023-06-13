@@ -1,8 +1,6 @@
 import { Prop } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { randomUUID } from 'crypto';
-import { Expose } from 'class-transformer';
-import { ApiProperty } from '@nestjs/swagger';
 
 export class PostDto extends Document {
   @Prop({
