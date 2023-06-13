@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 export class NotesAppAuthGuard implements CanActivate {
   public canActivate(context: ExecutionContext): boolean | Promise<boolean> | Observable<boolean> {
     // TODO>> IMPLEMENT AUTH GUARD
+    console.log(context);
     return false;
   }
 }

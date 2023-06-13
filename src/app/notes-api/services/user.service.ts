@@ -6,13 +6,10 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(UserDto.name) private readonly userDto: Model<UserDto>,
-  ) {}
+  constructor(@InjectModel(UserDto.name) private readonly userDto: Model<UserDto>) {}
 
   public async addOrUpdateUser(user: UserDto) {
-
-    if(!user.userId) {
+    if (!user.userId) {
       user.userId = randomUUID();
       user.groups = [];
     }
@@ -26,27 +23,33 @@ export class UserService {
 
   public async getUserById(userId: string) {
     const filter = {
-      userId
-    }
-    const user = await this.userDto.findOne(filter).lean().exec().then(response => response);
-    if(user) {
+      userId,
+    };
+    const user = await this.userDto
+      .findOne(filter)
+      .lean()
+      .exec()
+      .then((response) => response);
+    if (user) {
       return user;
     }
     throw new NotFoundException('User not found!');
   }
 
-
   public async deleteUserById(userId: string) {
     try {
-      return await this.userDto.deleteOne({userId: userId});
+      return await this.userDto.deleteOne({ userId: userId });
     } catch (error) {
       throw error;
     }
   }
 
   public async isUserValid(userId: string) {
-    return await this.userDto.exists({userId}).lean().exec()
-      .then(response => response);
+    return await this.userDto
+      .exists({ userId })
+      .lean()
+      .exec()
+      .then((response) => response);
   }
 
   public async updateUserGroups(userId: string, groupId: string) {

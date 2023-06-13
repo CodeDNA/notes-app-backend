@@ -1,9 +1,4 @@
-import {
-  BadRequestException,
-  Injectable,
-  NotFoundException,
-  UnauthorizedException,
-} from '@nestjs/common';
+import { BadRequestException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { PostDto } from '../dto/post.dto';
@@ -12,9 +7,7 @@ import { randomUUID } from 'crypto';
 
 @Injectable()
 export class GroupsService {
-  constructor(
-    @InjectModel(GroupDto.name) private readonly group: Model<GroupDto>,
-  ) {}
+  constructor(@InjectModel(GroupDto.name) private readonly group: Model<GroupDto>) {}
 
   public async createOrUpdateGroup(group: GroupDto) {
     if (!group.ownerId) {
@@ -106,10 +99,7 @@ export class GroupsService {
       });
   }
 
-  private async doesUserExistInGroup(
-    userId: string,
-    groupId: string,
-  ): Promise<number> {
+  private async doesUserExistInGroup(userId: string, groupId: string): Promise<number> {
     const group = await this.getGroupById(groupId);
     if (!group) {
       throw new BadRequestException('Group does not exist!');
@@ -124,9 +114,7 @@ export class GroupsService {
     const group = await this.getGroupById(post.groupId);
     if (group) {
       if (group.members.indexOf(post.posterId) === -1) {
-        throw new UnauthorizedException(
-          'User unauthorized to post in this group!',
-        );
+        throw new UnauthorizedException('User unauthorized to post in this group!');
       }
       post.postId = randomUUID();
       if (group.posts?.length > 0) {
@@ -144,11 +132,7 @@ export class GroupsService {
     throw new NotFoundException('Group not found!');
   }
 
-  public async deletePostFromGroup(
-    userId: string,
-    groupId: string,
-    postId: string,
-  ) {
+  public async deletePostFromGroup(userId: string, groupId: string, postId: string) {
     const group = await this.getGroupById(groupId);
     if (!group) {
       throw new NotFoundException('Group not found!');
@@ -160,9 +144,7 @@ export class GroupsService {
     }
 
     if (group.posts[postIndex].posterId !== userId) {
-      throw new UnauthorizedException(
-        'You are not authorized to delete this post!',
-      );
+      throw new UnauthorizedException('You are not authorized to delete this post!');
     }
 
     group.posts.splice(postIndex, 1); // * Can be replaced by deleteOne()
@@ -172,11 +154,7 @@ export class GroupsService {
 
   // ! ---------- T B I --------------
 
-  public async markPostAsComplete(
-    userId: string,
-    groupId: string,
-    postId: string,
-  ) {
+  public async markPostAsComplete(userId: string, groupId: string, postId: string) {
     const group = await this.getGroupById(groupId);
     if (!group) {
       throw new NotFoundException('Group not found!');
