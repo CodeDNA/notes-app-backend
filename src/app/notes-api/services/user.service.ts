@@ -1,38 +1,60 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { UserDto } from '../dto/user-dto';
+import { UserDto } from '../dto/user.dto';
 import { Model } from 'mongoose';
+import { randomUUID } from 'crypto';
 
 @Injectable()
 export class UserService {
-  constructor(
-    @InjectModel(UserDto.name) private readonly userDto: Model<UserDto>,
-  ) {}
+  constructor(@InjectModel(UserDto.name) private readonly userDto: Model<UserDto>) {}
 
-  public async addNewUser() {
-    const dummyUser = {
-      userId: 'asd2154',
-      userName: 'parkerpunj',
-      firstName: 'Prabhakar',
-      LastName: 'Punj',
-      email: 'parkerpunj@gmail.com',
-    };
+  public async addOrUpdateUser(user: UserDto) {
+    if (!user.userId) {
+      user.userId = randomUUID();
+      user.groups = [];
+    }
 
     const filter = {
-      userId: dummyUser.userId,
+      userId: user.userId,
     };
 
-    return await this.userDto
-      .findOneAndUpdate(filter, dummyUser, { upsert: true, new: true })
+    return await this.userDto.findOneAndUpdate(filter, user, { upsert: true, new: true });
+  }
+
+  public async getUserById(userId: string) {
+    const filter = {
+      userId,
+    };
+    const user = await this.userDto
+      .findOne(filter)
       .lean()
       .exec()
-      .then((response) => {
-        console.log(response);
-        return response;
-      })
-      .catch((error) => {
-        console.log(error);
-        throw error;
-      });
+      .then((response) => response);
+    if (user) {
+      return user;
+    }
+    throw new NotFoundException('User not found!');
+  }
+
+  public async deleteUserById(userId: string) {
+    try {
+      return await this.userDto.deleteOne({ userId: userId });
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  public async isUserValid(userId: string) {
+    return await this.userDto
+      .exists({ userId })
+      .lean()
+      .exec()
+      .then((response) => response);
+  }
+
+  public async updateUserGroups(userId: string, groupId: string) {
+    const user = await this.getUserById(userId);
+    user.groups.push(groupId);
+    return await this.addOrUpdateUser(user);
   }
 }
