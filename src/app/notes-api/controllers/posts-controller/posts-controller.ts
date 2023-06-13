@@ -1,5 +1,5 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
-import { NotesAppAuthGuard } from '@authentication-guard';
+import { NotesAppAuthGuard } from '../../../../../libs/guards/auth.guard';
 import { GroupsService } from '../../services/groups.service';
 import { UserService } from '../../services/user.service';
 
