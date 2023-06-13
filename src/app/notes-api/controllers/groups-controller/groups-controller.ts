@@ -27,6 +27,7 @@ export class GroupsController {
     }
     const updatedGroup = await this.groupsService.createOrUpdateGroup(group);
     if (updatedGroup) {
+      console.log('testign');
       await this.userService.updateUserGroups(updatedGroup.ownerId, updatedGroup.groupId);
     }
     return updatedGroup;
