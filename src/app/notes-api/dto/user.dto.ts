@@ -13,7 +13,7 @@ export class UserDto extends Document {
   @Prop({ type: String, required: true })
   userId: string;
 
-  @Prop({ type: String, required: true })
+  @Prop({ type: String, required: true }) // TODO: Set unique constraint
   userName: string;
 
   @Prop({ type: String, required: true })
