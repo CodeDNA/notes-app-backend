@@ -36,6 +36,9 @@ export class UserDto extends Document {
 
   @Prop({ type: [String], required: false })
   groups: string[];
+
+  @Prop({ type: String, required: false })
+  password: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(UserDto).index({

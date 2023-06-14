@@ -57,4 +57,19 @@ export class UserService {
     user.groups.push(groupId);
     return await this.addOrUpdateUser(user);
   }
+
+  public async getUserByUserName(userName: string) {
+    const filter = {
+      userName,
+    };
+    const user = await this.userDto
+      .findOne(filter)
+      .lean()
+      .exec()
+      .then((response) => response);
+    if (user) {
+      return user;
+    }
+    throw new NotFoundException('User not found!');
+  }
 }

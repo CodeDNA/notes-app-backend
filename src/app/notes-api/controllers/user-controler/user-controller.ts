@@ -13,6 +13,11 @@ export class UsersController {
     return await this.userService.getUserById(userId);
   }
 
+  @Post('user-name')
+  async getUserByUserName(@Body() request: { userName: string }) {
+    return await this.userService.getUserByUserName(request.userName);
+  }
+
   @Post('add')
   async addNewUser(@Body() request: UserDto) {
     return await this.userService.addOrUpdateUser(request);
