@@ -19,7 +19,7 @@
     "noFallthroughCasesInSwitch": false,
     "importHelpers": true,
     "paths": {
-      "@authentication-guard": ["libs/guards/index.ts"]
+      
     },
   },
   "include": ["src"],
