@@ -37,3 +37,7 @@ TO DO:
 
 >> CREATE SEPARATE VARIANT DTOS FOR CREATE AND UPDATE
 (https://medium.com/fusionworks/api-payloads-validation-and-transformation-in-nestjs-5022ce4df225)
+
+>> REFRESH accessToken
+
+>> SECRETS WHEN SIGNIGN THE JWT TOKEN
