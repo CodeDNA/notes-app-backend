@@ -1,4 +1,4 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, InternalServerErrorException, Post } from '@nestjs/common';
 import { AuthService } from '../services/auth.service';
 import { CreateUserDto } from 'src/libs/dtos/create-user.dto';
 
@@ -11,7 +11,11 @@ export class AuthController {
   }
 
   @Post('/sign-up')
-  signUp(@Body() credentials: CreateUserDto) {
-    return this.authService.signUp(credentials);
+  async signUp(@Body() credentials: CreateUserDto) {
+    const newUser = await this.authService.signUp(credentials);
+    if (newUser) {
+      return `Account Successfully Created. Welcome ${newUser.firstName}.`;
+    }
+    throw new InternalServerErrorException('Somethig went wrong please try again');
   }
 }

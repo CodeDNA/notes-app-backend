@@ -8,7 +8,7 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
   },
 })
 export class User {
-  @Prop({ type: String, required: true, immutable: true })
+  @Prop({ type: String, required: true })
   userId: string;
 
   @Prop({ type: String, required: true, unique: true })
@@ -30,7 +30,7 @@ export class User {
   phoneNumber: number;
 
   @Prop({ type: Boolean, required: true, default: false })
-  isDeleted: boolean;
+  isDeleted = false;
 
   @Prop({ type: [String], required: false })
   groups: string[];
@@ -39,4 +39,4 @@ export class User {
   password: string;
 }
 
-export const UserSchema = SchemaFactory.createForClass(User).index({ userName: 1, email: 1 }, { unique: true });
+export const UserSchema = SchemaFactory.createForClass(User).index({ userId: 1, userName: 1, email: 1 }, { unique: true });

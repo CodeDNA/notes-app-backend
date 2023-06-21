@@ -13,7 +13,7 @@ import { UsersModule } from 'src/app/users/users.module';
     JwtModule.register({
       secret: 'topSecret51',
       signOptions: {
-        expiresIn: 3600,
+        expiresIn: '10h', //TODO: Change this
       },
     }),
   ],

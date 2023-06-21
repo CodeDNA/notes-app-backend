@@ -10,10 +10,10 @@ export class AuthService {
   constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
   async signIn(credentials: { userName: string; password: string }): Promise<{ accessToken: string }> {
-    const { userName, password } = credentials;
-    const user = await this.userService.getUserByUserName(userName);
-    if (user && (await bcrypt.compare(password, user.password))) {
-      const payload: JWTPayload = { userName };
+    const user = await this.userService.getUserByUserName(credentials.userName);
+    if (user && (await bcrypt.compare(credentials.password, user.password))) {
+      const { userName, userId } = user;
+      const payload: JWTPayload = { userName, userId };
       const accessToken: string = this.jwtService.sign(payload);
       return { accessToken };
     }

@@ -9,7 +9,7 @@ class SerializeInterceptor implements NestInterceptor {
   intercept(_context: ExecutionContext, handler: CallHandler<any>): Observable<any> | Promise<Observable<any>> {
     /* This runs before controller */
 
-    // * This runs after the controller
+    /* This runs after the controller */
     return handler.handle().pipe(
       map((data: any) => {
         return plainToInstance(this.DtoClass, data, {

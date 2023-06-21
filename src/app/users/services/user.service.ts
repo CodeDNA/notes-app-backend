@@ -2,13 +2,14 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { UserDto } from '../dto/user.dto';
 import { v4 as uuid } from 'uuid';
 import { UsersRespository } from '../repository/users.repository';
-import { User } from '../dto/user-model';
+import { User } from '../dto/user.model';
 import { plainToClass } from 'class-transformer';
 import { CreateUserDto } from 'src/libs/dtos/create-user.dto';
 
 @Injectable()
 export class UserService {
   constructor(private usersRespository: UsersRespository) {}
+
   public async addNewUser(signUpDetails: CreateUserDto) {
     const newUser = plainToClass(User, signUpDetails);
     newUser.userId = uuid();
@@ -22,8 +23,13 @@ export class UserService {
     return this.usersRespository.addOrUpdateUser(userModel);
   }
 
+  // TBI
+  // < Update user groups >
+  // < Update user first/last name >
+  // < >
+
   public async getUserById(userId: string) {
-    const user = this.usersRespository.getUserById(userId);
+    const user = await this.usersRespository.getUserById(userId);
     if (user) {
       return user;
     }
@@ -40,11 +46,24 @@ export class UserService {
     return this.usersRespository.isUserValid(userId);
   }
 
+  //TODO: Rename this to: addGroupsToUser
   public async updateUserGroups(userId: string, groupId: string) {
+    //TODO: remove this call from controllers and call this from groups service
     const user = await this.usersRespository.getUserById(userId);
     if (!user) throw new NotFoundException('User not found!');
     user.groups.push(groupId);
     // TODO: Implement exception handling
+    return await this.usersRespository.addOrUpdateUser(user);
+  }
+
+  public async removeGroupFromUser(userId: string, groupId: string) {
+    //TODO: remove this call from controllers and call this from groups service
+    const user = await this.usersRespository.getUserById(userId);
+    if (!user) throw new NotFoundException('User not found!');
+    const indexofGroup = user.groups.indexOf(groupId);
+    if (indexofGroup === -1) throw new NotFoundException('User is already removed from this group');
+
+    user.groups.splice(indexofGroup, 1);
     return await this.usersRespository.addOrUpdateUser(user);
   }
 

@@ -1,5 +1,5 @@
 import { ConflictException, Injectable, InternalServerErrorException } from '@nestjs/common';
-import { User } from '../dto/user-model';
+import { User } from '../dto/user.model';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -12,12 +12,18 @@ export class UsersRespository {
       userId: user.userId,
     };
     try {
-      return await this.userModel.findOneAndUpdate(filter, user, { upsert: true, new: true });
+      return await this.userModel
+        .findOneAndUpdate(filter, user, { upsert: true, new: true })
+        .lean()
+        .exec()
+        .then((response) => {
+          return response;
+        });
     } catch (error) {
       if (error.codeName === 'DuplicateKey') {
         throw new ConflictException(`User with this ${Object.keys(error.keyPattern)[0].toLowerCase()} already exists`);
       }
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(`${error.message}`);
     }
   }
 
