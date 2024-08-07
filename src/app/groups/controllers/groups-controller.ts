@@ -42,6 +42,7 @@ export class GroupsController {
     return updatedGroup;
   }
 
+  // FIXME: Deleting a group does not remove it from the groups array in 'users' object
   @Delete(':groupId')
   deleteGroup(@Param('groupId') groupId: string, @NotesExecutionContext() context: any) {
     return this.groupsService.deleteGroup(context, groupId);
@@ -56,7 +57,7 @@ export class GroupsController {
 
   // * Remove a user from a group
   @Post('remove-user')
-  // todo: 1) Check if it is the last member 2) Check if it the a.owner, b.creator
+  // TODO: 1) Check if it is the last member 2) Check if it the a.owner, b.creator
   async removeUserFromGroup(@Body() request: { userId: string; groupId: string }, @NotesExecutionContext() context: any) {
     const { userId, groupId } = request;
     return await this.groupsService.removeUserFromGroup(context, userId, groupId);
