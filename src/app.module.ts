@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { NotesModule } from './app/notes-api/notes-api.module';
+import { NotesModule } from './app/notes-api.module';
 import { MongooseModule } from '@nestjs/mongoose';
+import { AuthModule } from './authentication/auth.module';
+import { DatabaseConnectionString } from './secrets/db-secrets';
 
 @Module({
   imports: [
     MongooseModule.forRoot(
-      'mongodb+srv://parkerpunj:xS28gWlglbmZ0XCv@notes-app-db.eqymq1z.mongodb.net/',
+      DatabaseConnectionString
     ),
     NotesModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
