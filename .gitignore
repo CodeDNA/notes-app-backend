@@ -27,6 +27,7 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 .zshrcexport
+src/secrets-config.ts
 
 # IDE - VSCode
 .vscode/*
