@@ -22,9 +22,9 @@ export class GroupsService {
 
   public async deleteGroup(context: any, groupId: string) {
     //  Only the owner can delete a group
-    const groupToDelete = await this.getGroupById(groupId);
+    const groupToDelete = await this.getGroupById(groupId, context.userId);
     if (!groupToDelete) throw new NotFoundException('Group does not exist');
-    if (groupToDelete.ownerId !== context.userId) throw new UnauthorizedException();
+    if (groupToDelete.ownerId !== context.userId) throw new UnauthorizedException('Only owners/creates are authorized to delete a group.');
 
     const members = groupToDelete.members;
 
@@ -33,9 +33,8 @@ export class GroupsService {
       throw new InternalServerErrorException('Something went wrong while deleting the group. Please try again');
     }
 
-    //TODO: Update users-groups array
-    for (let index = 0; index < members.length; index++) {
-      // this.userService.removeGroupFromUser(); // TODO: TBI FIX THIS
+    for (const userId of members) {
+      this.userService.removeGroupFromUser(userId, groupId);
     }
     return deleteResult;
   }
@@ -45,7 +44,7 @@ export class GroupsService {
   }
 
   public async addUserToGroup(context: any, userId: string, groupId: string) {
-    const group = await this.getGroupById(groupId);
+    const group = await this.getGroupById(groupId, userId);
     if (!group) throw new NotFoundException('Group not found!');
 
     // Check if the requester who is adding a new user is already a group member.
@@ -71,7 +70,7 @@ export class GroupsService {
     const indexOfUser = await this.doesUserExistInGroup(userId, groupId);
     if (indexOfUser === -1) throw new BadRequestException('User does not exist in this group');
 
-    const group = await this.getGroupById(groupId);
+    const group = await this.getGroupById(groupId, userId);
     if (group.ownerId !== context.userId) throw new UnauthorizedException('You are not authorized to perform this action');
 
     group.members.splice(indexOfUser, 1);
@@ -96,13 +95,17 @@ export class GroupsService {
     return this.groupsRepository.getGroupsByIds(groupIds);
   }
 
-  public async getGroupById(groupId: string) {
+  // TODO: Verify if userId needs to be repalced with a generalized 'context'
+  public async getGroupById(groupId: string, userId: string) {
+    if (!userId) {
+      throw new BadRequestException('No context provided');
+    }
     const groups = await this.groupsRepository.getGroupsByIds([groupId]);
     return groups[0];
   }
 
   private async doesUserExistInGroup(userId: string, groupId: string): Promise<number> {
-    const group = await this.getGroupById(groupId);
+    const group = await this.getGroupById(groupId, userId);
     if (!group) {
       throw new BadRequestException('Group does not exist!');
     }

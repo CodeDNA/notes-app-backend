@@ -12,6 +12,12 @@ export class UsersController {
   constructor(private readonly userService: UserService) {}
 
   @Serialize(UserResponseDto)
+  @Get('my-profile')
+  async myProfile(@NotesExecutionContext() context: any) {
+    return await this.userService.getUserById(context.userId);
+  }
+
+  @Serialize(UserResponseDto)
   @Get(':userId')
   async getUserById(@Param('userId') userId: string) {
     return await this.userService.getUserById(userId);

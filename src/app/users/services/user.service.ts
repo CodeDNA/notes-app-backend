@@ -57,7 +57,6 @@ export class UserService {
   }
 
   public async removeGroupFromUser(userId: string, groupId: string) {
-    //TODO: remove this call from controllers and call this from groups service
     const user = await this.usersRespository.getUserById(userId);
     if (!user) throw new NotFoundException('User not found!');
     const indexofGroup = user.groups.indexOf(groupId);

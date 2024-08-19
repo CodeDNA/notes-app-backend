@@ -21,6 +21,13 @@ export class GroupsController {
     return this.groupsService.getMyGroups(context.userId);
   }
 
+  // * Fetch a group by groupId
+  @Get(':groupId')
+  @Serialize(GroupResponseDto)
+  async getGroupsById(@Param('groupId') groupId: string, @NotesExecutionContext() context: any) {
+    return this.groupsService.getGroupById(groupId, context);
+  }
+
   // * Fetches all groups created by me (requestContext.user).
   @Get('my-groups')
   @Serialize(GroupResponseDto)

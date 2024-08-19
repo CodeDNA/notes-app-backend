@@ -40,7 +40,7 @@ export class PostService {
     if (postIndex === -1) throw new NotFoundException('Post not found!');
 
     if (group.posts[postIndex].posterId !== context.userId) {
-      throw new UnauthorizedException('You are not authorized to delete this post!');
+      throw new UnauthorizedException('You are not authorized to delete this post. Users can only delete their own posts');
     }
 
     group.posts.splice(postIndex, 1); // * Can it be replaced by deleteOne()?
@@ -78,6 +78,10 @@ export class PostService {
 
     if (postIndex === -1) throw new NotFoundException('Post not found!');
     if (group.posts[postIndex].completerId) throw new UnauthorizedException('Cannot update a completed post.');
+
+    if (group.posts[postIndex].posterId !== context.userId) {
+      throw new UnauthorizedException('You are not authorized to update this post. Users can only edit their own posts');
+    }
 
     group.posts[postIndex].content = newPostContent;
     group.posts[postIndex].lastUpdatedAt = new Date();

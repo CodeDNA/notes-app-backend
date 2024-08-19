@@ -14,6 +14,9 @@ import { EditPostDto } from '../dto/posts-dto/edit-post.dto';
 export class PostsController {
   constructor(private readonly postService: PostService) {}
 
+  /**
+   * Only an authenticated member of the group should be authorized to create a new post.
+   */
   @Post('add-post')
   async addPost(@Body() post: CreatePostItemDto, @NotesExecutionContext() context: any) {
     const isAdded = await this.postService.addPostToGroup(context, post);
