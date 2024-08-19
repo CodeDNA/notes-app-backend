@@ -35,3 +35,4 @@ src/secrets-config.ts
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
+src/secrets/db-secrets.ts
