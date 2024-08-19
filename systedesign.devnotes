@@ -9,11 +9,13 @@ CLASSES
 
 
 USE CASES
-    1. A user can create a group.
-    2. A user can join a group.
-    3. A user can leave a group.
-    4. A user can join a group if the user has an invitation to join the group from either a existing user of the group or admin(s) only. Admin is defined as the creator of the group or the users that the creator chooses to be admin.
-    5. A user can add a string/post on the group visible to everyone or limited members. The post is tied to a group (unique groupId) and is associated with a user to identify the creator of the post.
+    1. A user can create a group. ✅
+    2. A user can join a group. ✅
+    3. A user can leave a group. ✅
+    4. A user can join a group if the user has an invitation to join the group from either a existing user of the group or admin(s) only.
+       Admin is defined as the creator of the group or the users that the creator chooses to be admin.
+    5. A user can add a string/post on the group visible to everyone or limited members. ✅
+       The post is tied to a group (unique groupId) and is associated with a user to identify the creator of the post.
     6. The post is visible to all but can be edited by only the creator of the post.
     7. Search post:
         1. Search in current group or search in all groups
@@ -23,7 +25,19 @@ USE CASES
 
 TO DO:
        1. CLASS METHODS/CONTROLLERS:
-          a) User – addUser, deleteUser, getUser, getUser groups
-          b) Groups: createNewGroup(creatorId: UserId)
+          a) User – addUser, deleteUser, getUser, get user's groups ✅
+          b) Groups: createNewGroup(creatorId: UserId), deleteAGroup
+          c) Authentication ✅
+          d) Repositories ✅
+          e) Break down the project into smaller modules ✅
+          f) PROJECT CONFIGURATION (TOP PRIORITY) 🚨🚨🚨
 
 
+🚨🚨🚨 HANDLE EXCEPTION IN THE CALLING LAYER - CONTROLLERS 🚨🚨🚨
+
+>> CREATE SEPARATE VARIANT DTOS FOR CREATE AND UPDATE
+(https://medium.com/fusionworks/api-payloads-validation-and-transformation-in-nestjs-5022ce4df225)
+
+>> REFRESH accessToken
+
+>> SECRETS WHEN SIGNIGN THE JWT TOKEN
