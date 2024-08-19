@@ -27,6 +27,7 @@ lerna-debug.log*
 .settings/
 *.sublime-workspace
 .zshrcexport
+src/secrets-config.ts
 
 # IDE - VSCode
 .vscode/*
@@ -34,4 +35,3 @@ lerna-debug.log*
 !.vscode/tasks.json
 !.vscode/launch.json
 !.vscode/extensions.json
-src/secrets/db-secrets.ts
